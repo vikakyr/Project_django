@@ -1,0 +1,11 @@
+{% block content %}
+  <h3>Twój Koszyk</h3>
+  <ul>
+    {% for product_id in selectedProducts %}
+      <li>Produkt o identyfikatorze {{ product_id }}
+        Cena {{ product.price}}
+      </li>
+      
+    {% endfor %}
+  </ul>
+{% endblock %}

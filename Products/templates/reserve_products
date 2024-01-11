@@ -1,0 +1,32 @@
+<!-- reserve_products.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Products</title>
+</head>
+<body>
+    <h2>Reserve Products</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="{% url 'reserve_products' %}">
+        {% csrf_token %}
+        
+        <!-- Dodaj pola formularza -->
+        {{ form.reserved_products }}
+        {{ form.product.label_tag }} {{ form.product }}
+        {{ form.selected_size.label_tag }} {{ form.selected_size }}
+        {{ form.date.label_tag }} {{ form.date }}
+
+        <button type="submit">Reserve Products</button>
+    </form>
+</body>
+</html>

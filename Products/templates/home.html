@@ -1,0 +1,181 @@
+<!-- home.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+
+
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+  <h3>Choose date and options</h3>
+  <div class="cl2"> 
+  <form method="post" action="" id="reserveForm">
+    {% csrf_token %}
+    {{ form.date }} </br>
+
+    Choose category: 
+    {{ form.options }}
+
+    Choose level:
+    {{ form.options_level }}
+    <button type="submit">Submit</button>
+</div>
+</form>
+
+{% if grouped_products %}
+    <h3>Filtered Products</h3>
+    <ul>
+        {% for category_name, products in grouped_products.items %}
+            <h3>{{ category_name }}</h3>
+            <ul>
+                {% for product in products %}
+                    <li>
+                        <span id="product_name">{{ product.name }}</span> 
+                        <p> Price: {{ product.price }} </p>
+                        <form method="post" action="" class="reserve-product-form">
+                            {% csrf_token %}
+
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="category" value="{{ category_name }}">
+                            <input type="hidden" name="price" value="{{ product.price }}">
+                            <input type="hidden" name="date" value="{{ form.date.value }}">
+
+                            {% if category_name == 'Boots' %}
+                                Choose size:
+                                {{ product_details_form.size_choices_boots }}
+                            {% elif category_name == 'Helmet' %}
+                                Choose size:
+                                {{ product_details_form.size_choices_helmet }}
+                            {% elif category_name == 'Skis' %}
+                                Choose length:
+                                {{ product_details_form.length_choices_skis }}
+                            {% elif category_name == 'Poles' %}
+                                Choose length:
+                                {{ product_details_form.length_choices_poles }}
+                            {% endif %}
+                            
+                            {% if user.is_authenticated %}
+                                <button type="button" onclick="addToReservedProducts(this)">Choose</button>
+                            {% endif %}
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="post" action="{% url 'save_reserved_product' %}">
+    {% csrf_token %}
+    <input type="hidden" name="reservedProducts" id="reservedProductsInput" value="">
+    <h3>Selected Products</h3>
+    <ul id="reservedProductsList"></ul>
+    <button type="submit">Reserve products</button>
+</form>
+
+
+<script>
+
+function checkDate() {
+        var dateInput = document.getElementById("id_date");
+        var currentDate = new Date();
+
+        if (new Date(dateInput.value) < currentDate) {
+            //alert("Wybrana data jest wcześniejsza niż aktualna data. Proszę wybrać inną datę.");
+            dateInput.value = "";
+            //dateInput.setCustomValidity("Please choose a correct date.");
+            //dateInput.innerText = "Please choose a correct date.";
+            //dateInput.value = "";
+            dateInput.setCustomValidity("Please choose a correct date.");
+
+        }
+    }
+
+    document.getElementById("reserveForm").addEventListener("submit", function (event) {
+        checkDate(); 
+    });
+    var reservedProducts = [];
+
+    function addToReservedProducts(button) {
+    var form = button.closest('.reserve-product-form');
+    var reservedProduct = {
+        productId: form.querySelector('[name="product_id"]').value,
+        level: document.querySelector('[name="options_level"]').value,
+        productName: document.getElementById("product_name").textContent,
+        category: form.querySelector('[name="category"]').value,
+        price: form.querySelector('[name="price"]').value,
+        selectedSize: getSelectedOption(form),
+        date: form.querySelector('[name="date"]').value,
+        username:  '{{ user.username }}',
+    };
+
+    saveReservedProduct(reservedProduct);
+
+    reservedProducts.push(reservedProduct);
+
+    updateReservedProductsList();
+    updateReservedProductsInput();
+    }
+
+    function saveReservedProduct(productData) {
+        fetch('{% url "save_reserved_product" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: JSON.stringify(productData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Product saved successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error saving product:', error);
+        });
+    }
+
+
+    function getSelectedOption(form) {
+        var category_name = form.querySelector('[name="category"]').value;
+        var selectedOption = '';
+        if (category_name == 'Boots') {
+            selectedOption = form.querySelector('input[name="size_choices_boots"]:checked').value;
+        } else if (category_name == 'Helmet') {
+            selectedOption = form.querySelector('input[name="size_choices_helmet"]:checked').value;
+        } else if (category_name == 'Skis') {
+            selectedOption = form.querySelector('input[name="length_choices_skis"]:checked').value;
+        } else if (category_name == 'Poles') {
+            selectedOption = form.querySelector('input[name="length_choices_poles"]:checked').value;
+        }
+        return selectedOption;
+    }
+
+    function updateReservedProductsList() {
+        var reservedProductsList = document.getElementById('reservedProductsList');
+        reservedProductsList.innerHTML = '';
+
+        reservedProducts.forEach(function(product) {
+            var listItem = document.createElement('li');
+            listItem.innerHTML = 'Product ID: ' + product.productId + ', Category: ' + product.category + ', Selected Option: ' + product.selectedSize + ', Price: ' + product.price+product.username;
+            reservedProductsList.appendChild(listItem);
+        });
+    }
+
+    function updateReservedProductsInput() {
+        var reservedProductsInput = document.getElementById('reservedProductsInput');
+        reservedProductsInput.value = JSON.stringify(reservedProducts);
+    }
+
+
+</script>
+
+{% endblock %}

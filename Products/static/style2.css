@@ -1,0 +1,115 @@
+body {
+    background-image: url('skiing_img1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: rgba(255, 255, 255, 0.0);
+    color: white;
+}
+
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+}
+
+.cl2{
+    font-size: xx-large;
+}
+
+#reserveForm input[type="date"] {
+    width: 140px;
+    height: 25px;
+    font-size: medium;
+}
+
+
+#reserveForm button[type="submit"] {
+    width: 130px;
+    height: 20px;
+    font-size: medium;
+}
+
+#reserveForm input[type="date"] {
+    width: 140px;
+    height: 25px;
+    font-size: medium;
+}
+
+#save_reserved_product button[type="submit"] {
+    width: 140px;
+    height: 25px;
+    font-size: medium;
+}
+
+header {
+    font-size: xx-large;
+    position: relative;
+    margin-bottom: 0; 
+}
+
+a {
+    color: black;
+}
+
+.class3 {
+    float: right;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.class3 a {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.link {
+    font-size: large;
+}
+
+
+@media only screen and (max-width: 600px) {
+    header {
+        font-size: 18px;
+    }
+
+    .class3 {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .class1 {
+        margin: 20px 10px; 
+        max-width: none; 
+    }
+}
+
+.class1 {
+    border: 1px solid black; 
+    padding: 10px; 
+    text-align: left; 
+    margin: 20px auto; 
+    max-width: 400px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.center {
+    text-align: center;
+}
+
+
+.class2 {
+    border: 1px solid black; 
+    padding: 10px; 
+    text-align: left; 
+    margin: 20px auto; 
+    max-width: 700px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    font-size: large;
+}
+
+.cl2{
+    font-size: large;
+}

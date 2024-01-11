@@ -1,0 +1,74 @@
+/* Pozostałe style pozostają bez zmian */
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+}
+
+
+header {
+    font-size: xx-large;
+    position: relative;
+    margin-bottom: 0; /* Dodaj tę linię, aby zniwelować domyślny odstęp na dole */
+}
+
+a {
+    color: black;
+}
+
+.class3 {
+    float: right;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.class3 a {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.link {
+    font-size: large;
+}
+
+/* Media query dla ekranów o szerokości mniejszej niż 600px */
+@media only screen and (max-width: 600px) {
+    header {
+        font-size: 18px;
+    }
+
+    .class3 {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .class1 {
+        margin: 20px 10px; /* Dostosowanie marginesu na mniejszym ekranie */
+        max-width: none; /* Usunięcie maksymalnej szerokości */
+    }
+}
+
+.class1 {
+    border: 1px solid black; /* Obramowanie */
+    padding: 10px; /* Margines wewnątrz obramowania */
+    text-align: left; /* Centrowanie tekstu wewnątrz diva */
+    margin: 20px auto; /* Przesunięcie w dół i automatyczne centrowanie na szerokość strony */
+    max-width: 400px; /* Maksymalna szerokość diva */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Cień */
+}
+
+.center {
+    text-align: center;
+}
+
+
+.class2 {
+    border: 1px solid black; /* Obramowanie */
+    padding: 10px; /* Margines wewnątrz obramowania */
+    text-align: left; /* Centrowanie tekstu wewnątrz diva */
+    margin: 20px auto; /* Przesunięcie w dół i automatyczne centrowanie na szerokość strony */
+    max-width: 700px; /* Maksymalna szerokość diva */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Cień */
+}

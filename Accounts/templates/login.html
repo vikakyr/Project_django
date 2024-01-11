@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+    
+    <h2 class="center">Login</h2>
+    <div class="class1">
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <p>{{ form.username.label_tag }}
+            {{ form.username }} </p>
+
+            <p>{{ form.password.label_tag }}
+            {{ form.password }} </p>
+
+            <p>Don't have an account? <a href="{% url 'register' %}" class="link">Sign up</a></p>
+
+            <p>Don't remember your password? <a href="{% url 'account_reset_password' %}" class="link">Reset password</a></p>
+
+            <input type="submit" name="LoginUser">
+        </form>
+    </div>
+{% endblock %}

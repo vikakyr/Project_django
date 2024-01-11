@@ -1,0 +1,11 @@
+
+{% block content %}
+  <h3>Choose Date Range and Products</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.start_date }}
+    {{ form.end_date }}
+    {{ form.options }}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

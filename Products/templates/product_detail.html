@@ -1,0 +1,11 @@
+<!-- product_detail.html -->
+{% block content %}
+  <h3>Product Details</h3>
+  <p>Name: {{ product.name }}</p>
+  <p>Description: {{ product.description }}</p>
+  <p>Price: {{ product.price }}</p>
+  <p>Category: {{ category_name }}</p> {# Dodane wyświetlanie nazwy kategorii #}
+
+
+  <a href="{% url 'home' %}">Back to Product List</a>
+{% endblock %}

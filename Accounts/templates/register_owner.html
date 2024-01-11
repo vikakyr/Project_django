@@ -1,0 +1,36 @@
+
+
+<h3>register owner</h3>
+
+{% load static %}
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="class1"> 
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <p>{{form.username.label}}
+        {{form.username}}</p>
+        <p>{{form.age.label}}
+        {{form.age}}</p>
+        <p>{{form.email.label}}
+        {{form.email}}</p>
+        <p>{{form.password1.label}}
+        {{form.password1}}</p>
+        <p>{{form.password2.label}}
+        {{form.password2}}</p>
+    
+        <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    
+    <input type="submit" name="CreateUserOwner">
+    </form>
+    </div>
+</body>
+</html>

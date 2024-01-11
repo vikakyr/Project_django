@@ -1,0 +1,31 @@
+<!-- reserved.html -->
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+
+    {% if user.is_authenticated and user.is_staff %}
+        <p>Hej, admin!</p>
+    {% endif %}
+
+    <h2>Reserved Products</h2>
+    {% if reservedProducts %}
+        {% regroup reservedProducts by category as groupedReservedProducts %}
+        <ul>
+            {% for category_reserved_products in groupedReservedProducts %}
+                <h3>{{ category_reserved_products.grouper }}</h3>
+                <ul>
+                    {% for product in category_reserved_products.list %}
+                        <li>
+                            Product Name: {{ product.product.name }}, Size: {{ product.selected_size }}, Price: {{ product.price }}, Date: {{ product.date }}, Username: {{product.user.username}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reserved products.</p>
+    {% endif %}
+{% endblock %}

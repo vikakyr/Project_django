@@ -1,0 +1,6 @@
+{% block content %}
+  <h3>Filtered Products</h3>
+  {% for product in filtered_products %}
+    <p>{{ product.name }}</p>
+  {% endfor %}
+{% endblock %}
