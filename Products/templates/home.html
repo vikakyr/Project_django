@@ -15,70 +15,90 @@
     {% endfor %}
     </ul>
     {% endif %}
-  <h3>Choose date and options</h3>
-  <div class="cl2"> 
-  <form method="post" action="" id="reserveForm">
-    {% csrf_token %}
-    {{ form.date }} </br>
+    <h3 class="center">Choose date and options</h3>
+    <div class="cl2">
+        <form method="post" action="" id="reserveForm">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Choose date:</td>
+                    <td>Choose category: </td>
+                    <td>Choose level: </td>
+                </tr>
+                <tr>
+                    <td>{{ form.date }}</td>
+                    <td>{{ form.options }}</td>
+                    <td>{{ form.options_level }}</td>
+                </tr>
+            </table>
+            <button type="submit" class="center">Submit</button>
+        </form>
+    </div>
 
-    Choose category: 
-    {{ form.options }}
 
-    Choose level:
-    {{ form.options_level }}
-    <button type="submit">Submit</button>
-</div>
-</form>
 
+
+<!-- home.html -->
 {% if grouped_products %}
-    <h3>Filtered Products</h3>
-    <ul>
+    <h3 class="center">Filtered Products</h3>
+    
+    <ul class="filtered-products">
+        <div class="cl6"> 
         {% for category_name, products in grouped_products.items %}
-            <h3>{{ category_name }}</h3>
-            <ul>
-                {% for product in products %}
-                    <li>
-                        <span id="product_name">{{ product.name }}</span> 
-                        <p> Price: {{ product.price }} </p>
-                        <form method="post" action="" class="reserve-product-form">
-                            {% csrf_token %}
+            <li>
+                <h3>{{ category_name }}</h3>
+                <ul class="product-list">
+                    {% for product in products %}
+                        <li>
+                            <form method="post" action="" class="reserve-product-form">
+                                {% csrf_token %}
 
-                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="category" value="{{ category_name }}">
-                            <input type="hidden" name="price" value="{{ product.price }}">
-                            <input type="hidden" name="date" value="{{ form.date.value }}">
+                                <div class="product-info">
+                                    <span id="product_name">{{ product.name }}</span>
+                                    <p> Price: {{ product.price }} </p>
 
-                            {% if category_name == 'Boots' %}
-                                Choose size:
-                                {{ product_details_form.size_choices_boots }}
-                            {% elif category_name == 'Helmet' %}
-                                Choose size:
-                                {{ product_details_form.size_choices_helmet }}
-                            {% elif category_name == 'Skis' %}
-                                Choose length:
-                                {{ product_details_form.length_choices_skis }}
-                            {% elif category_name == 'Poles' %}
-                                Choose length:
-                                {{ product_details_form.length_choices_poles }}
-                            {% endif %}
-                            
-                            {% if user.is_authenticated %}
-                                <button type="button" onclick="addToReservedProducts(this)">Choose</button>
-                            {% endif %}
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
+                                    {% if category_name == 'Boots' %}
+                                        <label for="size_choices_boots">Choose size:</label>
+                                        {{ product_details_form.size_choices_boots }}
+                                    {% elif category_name == 'Helmet' %}
+                                        <label for="size_choices_helmet">Choose size:</label>
+                                        {{ product_details_form.size_choices_helmet }}
+                                    {% elif category_name == 'Skis' %}
+                                        <label for="length_choices_skis">Choose length:</label>
+                                        {{ product_details_form.length_choices_skis }}
+                                    {% elif category_name == 'Poles' %}
+                                        <label for="length_choices_poles">Choose length:</label>
+                                        {{ product_details_form.length_choices_poles }}
+                                    {% endif %}
+                                </div>
+
+                                {% if user.is_authenticated %}
+                                    <button type="button" class="choose-button" onclick="addToReservedProducts(this)">Choose</button>
+                                {% endif %}
+                                
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <input type="hidden" name="category" value="{{ category_name }}">
+                                <input type="hidden" name="price" value="{{ product.price }}">
+                                <input type="hidden" name="date" value="{{ form.date.value }}">
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endfor %}
+    </div>
     </ul>
+
 {% endif %}
 
 <form method="post" action="{% url 'save_reserved_product' %}">
     {% csrf_token %}
     <input type="hidden" name="reservedProducts" id="reservedProductsInput" value="">
-    <h3>Selected Products</h3>
+    <h3 class="center">Selected Products</h3>
     <ul id="reservedProductsList"></ul>
-    <button type="submit">Reserve products</button>
+    <div class="center"> 
+    <button type="submit" >Reserve products</button>
+    </div>
 </form>
 
 

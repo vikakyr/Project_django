@@ -6,7 +6,9 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
-    <h2>You have been logged out</h2>
+    <h2 class="center">You have been logged out</h2>
+    <p class="center"> 
     <a class="link" href="{% url 'login' %}">Log in again</a>
+    </p>
 
 {% endblock %}

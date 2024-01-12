@@ -2,28 +2,33 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="cl1">{% block title %}Ski rental shop{% endblock title %}</title>
-    
+    <!-- Meta tags and other head elements... -->
     {% load static %}
+    <title class="cl1">{% block title %}Ski rental shop{% endblock title %}</title>
+    <link rel="icon" href="{% static 'logo.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
-
-    
     {% block scripts %}{% endblock %}
 </head>
 <body>
-    <header>Ski rental shop</header>
-
-    <div id="navbar">
-        {% if user.is_authenticated %}
-            <p class="class3"> Witaj, {{ user.username }}! (<a href="{% url 'logout' %}">Wyloguj się</a>)</p>
-        {% else %}
-            <p class="class3"><a href="{% url 'register' %}">Sign up</a></p><p class="class3">
-            <p class="class3" ><a href="{% url 'login' %}">Log in</a></p>
-            
-        {% endif %}
+    <div id="navbar" class="cl3">
+        <div class="header-container">
+            <header><img src="{% static 'logo4_c.png' %}" alt="Logo Strony" id="logo_img" class="logo-image"> Ski rental shop </header>
+            {% if user.is_authenticated %}
+                <div class="class3"> Witaj, {{ user.username }}! (<a href="{% url 'logout' %}">Wyloguj się</a>)</div>
+            {% else %}
+                <div class="class3">
+                    <a href="{% url 'register' %}">Sign up</a>
+                    <a href="{% url 'login' %}">Log in</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
+
+    <div class="image-container">
+        <img src="{% static 'skiing_img2.jpg' %}" alt="Background Image">
+    </div>
+
+
 
     <main>
         {% block content %}
@@ -32,4 +37,3 @@
     <footer></footer>
 </body>
 </html>
-
