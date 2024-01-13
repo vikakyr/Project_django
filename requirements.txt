@@ -6,3 +6,4 @@ django-recaptcha
 pillow
 six
 django-allauth==0.60.0
+django-mathfilters

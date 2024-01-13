@@ -101,10 +101,11 @@ class ReservedProduct(models.Model):
     product = models.ForeignKey('Products', on_delete=models.CASCADE)
     selected_size = models.CharField(max_length=50) 
     category=models.ForeignKey('Category', on_delete=models.CASCADE)
+    price= models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
 
     def __str__(self):
-        return f"{self.user.username} - {self.product.name} - {self.date} - {self.selected_size} - {self.category}"
+        return f"{self.user.username} - {self.product.name} - {self.date} - {self.selected_size} - {self.category} - {self.price}"
 
     class Meta:
         verbose_name = "Reserved Product"

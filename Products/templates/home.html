@@ -3,10 +3,13 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
-
-
-
+<link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}?v=1">
+<style>
+    #totalPrice {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
 
     {% if messages %}
     <ul class="messages">
@@ -26,19 +29,15 @@
                     <td>Choose level: </td>
                 </tr>
                 <tr>
-                    <td>{{ form.date }}</td>
-                    <td>{{ form.options }}</td>
-                    <td>{{ form.options_level }}</td>
+                    <td >{{ form.date }}</td>
+                    <td class="options-field">{{ form.options }}</td>
+                    <td class="options-level-field">{{ form.options_level }}</td>
                 </tr>
             </table>
             <button type="submit" class="center">Submit</button>
         </form>
     </div>
 
-
-
-
-<!-- home.html -->
 {% if grouped_products %}
     <h3 class="center">Filtered Products</h3>
     
@@ -62,7 +61,7 @@
                                         {{ product_details_form.size_choices_boots }}
                                     {% elif category_name == 'Helmet' %}
                                         <label for="size_choices_helmet">Choose size:</label>
-                                        {{ product_details_form.size_choices_helmet }}
+                                        {{ product_details_form.size_choices_helmet}}
                                     {% elif category_name == 'Skis' %}
                                         <label for="length_choices_skis">Choose length:</label>
                                         {{ product_details_form.length_choices_skis }}
@@ -95,33 +94,31 @@
     {% csrf_token %}
     <input type="hidden" name="reservedProducts" id="reservedProductsInput" value="">
     <h3 class="center">Selected Products</h3>
+    <div class="cl7"> 
     <ul id="reservedProductsList"></ul>
+</div>
+    <p id="totalPrice" class="cl8"></p>
+ 
     <div class="center"> 
     <button type="submit" >Reserve products</button>
     </div>
 </form>
 
-
 <script>
-
-function checkDate() {
+    function checkDate() {
         var dateInput = document.getElementById("id_date");
         var currentDate = new Date();
 
         if (new Date(dateInput.value) < currentDate) {
-            //alert("Wybrana data jest wcześniejsza niż aktualna data. Proszę wybrać inną datę.");
             dateInput.value = "";
-            //dateInput.setCustomValidity("Please choose a correct date.");
-            //dateInput.innerText = "Please choose a correct date.";
-            //dateInput.value = "";
             dateInput.setCustomValidity("Please choose a correct date.");
-
         }
     }
 
     document.getElementById("reserveForm").addEventListener("submit", function (event) {
-        checkDate(); 
+        checkDate();
     });
+
     var reservedProducts = [];
 
     function addToReservedProducts(button) {
@@ -129,7 +126,7 @@ function checkDate() {
     var reservedProduct = {
         productId: form.querySelector('[name="product_id"]').value,
         level: document.querySelector('[name="options_level"]').value,
-        productName: document.getElementById("product_name").textContent,
+        productName: form.querySelector('#product_name').textContent, 
         category: form.querySelector('[name="category"]').value,
         price: form.querySelector('[name="price"]').value,
         selectedSize: getSelectedOption(form),
@@ -143,7 +140,9 @@ function checkDate() {
 
     updateReservedProductsList();
     updateReservedProductsInput();
-    }
+    updateTotalPrice();
+}
+
 
     function saveReservedProduct(productData) {
         fetch('{% url "save_reserved_product" %}', {
@@ -162,7 +161,6 @@ function checkDate() {
             console.error('Error saving product:', error);
         });
     }
-
 
     function getSelectedOption(form) {
         var category_name = form.querySelector('[name="category"]').value;
@@ -185,7 +183,7 @@ function checkDate() {
 
         reservedProducts.forEach(function(product) {
             var listItem = document.createElement('li');
-            listItem.innerHTML = 'Product ID: ' + product.productId + ', Category: ' + product.category + ', Selected Option: ' + product.selectedSize + ', Price: ' + product.price+product.username;
+            listItem.innerHTML = 'Name: ' + product.productName +', Category: ' + product.category + ', Size: ' + product.selectedSize + ', Price: ' + product.price;
             reservedProductsList.appendChild(listItem);
         });
     }
@@ -195,7 +193,13 @@ function checkDate() {
         reservedProductsInput.value = JSON.stringify(reservedProducts);
     }
 
+    function updateTotalPrice() {
+        var totalPrice = reservedProducts.reduce(function(total, product) {
+            return total + parseFloat(product.price);
+        }, 0);
 
+        document.getElementById('totalPrice').textContent = 'Total price: ' + totalPrice.toFixed(2);
+    }
 </script>
 
 {% endblock %}

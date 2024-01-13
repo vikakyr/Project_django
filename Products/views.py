@@ -125,6 +125,7 @@ def save_reserved_product(request):
             user=request.user,
             product=p,
             date=product["date"],
+            price=product["price"],
             selected_size=product["selectedSize"])
         reservedProduct.category = p.category
         reservedProduct.save()

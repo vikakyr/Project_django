@@ -4,7 +4,7 @@
 <head>
     <!-- Meta tags and other head elements... -->
     {% load static %}
-    <title class="cl1">{% block title %}Ski rental shop{% endblock title %}</title>
+    <title class="cl1">{% block title %}SKI RENTAL HOME{% endblock title %}</title>
     <link rel="icon" href="{% static 'logo.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
     {% block scripts %}{% endblock %}
@@ -12,9 +12,9 @@
 <body>
     <div id="navbar" class="cl3">
         <div class="header-container">
-            <header><img src="{% static 'logo4_c.png' %}" alt="Logo Strony" id="logo_img" class="logo-image"> Ski rental shop </header>
+            <header><img src="{% static 'logo4_c.png' %}" alt="Logo Strony" id="logo_img" class="logo-image">SKI RENTAL HOME</header>
             {% if user.is_authenticated %}
-                <div class="class3"> Witaj, {{ user.username }}! (<a href="{% url 'logout' %}">Wyloguj się</a>)</div>
+                <div class="class3"> Hello, {{ user.username }}! (  <a href="{% url 'logout' %}">Log out</a>)</div>
             {% else %}
                 <div class="class3">
                     <a href="{% url 'register' %}">Sign up</a>

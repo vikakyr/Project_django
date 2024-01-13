@@ -1,4 +1,3 @@
-<!-- reserved.html -->
 {% extends "base.html" %}
 
 {% load static %}
@@ -12,20 +11,24 @@
 
     <h2>Reserved Products</h2>
     {% if reservedProducts %}
-        {% regroup reservedProducts by category as groupedReservedProducts %}
+        {% regroup reservedProducts by date as groupedReservedProducts %}
         <ul>
-            {% for category_reserved_products in groupedReservedProducts %}
-                <h3>{{ category_reserved_products.grouper }}</h3>
-                <ul>
-                    {% for product in category_reserved_products.list %}
-                        <li>
-                            Product Name: {{ product.product.name }}, Size: {{ product.selected_size }}, Price: {{ product.price }}, Date: {{ product.date }}, Username: {{product.user.username}}
-                        </li>
-                    {% endfor %}
-                </ul>
+            {% for date_reserved_products in groupedReservedProducts %}
+                <li>
+                    <h3>{{ date_reserved_products.grouper }}</h3>
+                    <ul>
+                        {% for product in date_reserved_products.list %}
+                            <li>
+                                Name: {{ product.product.name }}, Category: {{ product.category }}, Size: {{ product.selected_size }}, Price: {{ product.price }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No reserved products.</p>
     {% endif %}
+
 {% endblock %}
+s

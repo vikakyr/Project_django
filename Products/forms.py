@@ -38,7 +38,7 @@ from .models import ReservedProduct
 class ReservedProductForm(forms.ModelForm):
     class Meta:
         model = ReservedProduct
-        fields = ['user', 'product', 'selected_size', 'date']
+        fields = ['user', 'product', 'selected_size','price',  'date']
 
 
 
